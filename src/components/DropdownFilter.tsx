@@ -19,7 +19,7 @@ const DropdownFilter: React.FC<DropdownFilterProps> = ({ column: { filterValue, 
             }}
         >
             {populationOptions?.map((data, key) => {
-                return <option value={data.value}>{data.label}</option>
+                return <option key={key} value={data.value}>{data.label}</option>
             })}
 
         </select>

@@ -138,8 +138,10 @@ const CountriesTable: React.FC = () => {
         <div>
             <div className='filter-header'>
                 <div className='gloablfilter'>
-                    <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}></GlobalFilter>
-                    <button className="clear-btn" onClick={handleClearFilter}>Clear</button>
+                    <React.Suspense fallback={<div>Loading...</div>}>
+                        <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}></GlobalFilter>
+                    </React.Suspense>
+                    <button data-testid="show-btn" className="clear-btn" onClick={handleClearFilter}>Clear</button>
                 </div>
                 <button className="showall-btn" onClick={fetchData} disabled={loading}>
                     {loading ? 'Loading...' : 'Show all Countries'}
@@ -147,10 +149,10 @@ const CountriesTable: React.FC = () => {
             </div>
             <table {...getTableProps()} className='country-table'>
                 <thead>
-                    {headerGroups.map((headerGroup) => (
-                        <tr {...headerGroup.getHeaderGroupProps()}>
-                            {headerGroup.headers.map((column) => (
-                                <th {...column.getHeaderProps()} className='table-border country-table-head'>
+                    {headerGroups.map((headerGroup, key) => (
+                        <tr key={key} {...headerGroup.getHeaderGroupProps()}>
+                            {headerGroup.headers.map((column, key) => (
+                                <th key={key} {...column.getHeaderProps()} className='table-border country-table-head'>
                                     {column.render('Header')}
                                     {/* @ts-ignore */}
                                     <div className='Population-filter'>{column.id == 'population' && (column?.canFilter ? column?.render("Filter") : null)}</div>
@@ -160,23 +162,33 @@ const CountriesTable: React.FC = () => {
                     ))}
                 </thead>
                 <tbody {...getTableBodyProps()} className='table-border country-table-body'>
-                    {page.map((row: { cells: Function }) => {
-                        {/* @ts-ignore */ }
-                        prepareRow(row);
-                        return (
-                            <>
-                                {/* @ts-ignore */}
-                                <tr {...row.getRowProps()}>
+                    {loading ? (
+                        // Skeleton loading rows
+                        Array.from({ length: 10 }).map((_, rowIndex) => (
+                            <tr key={rowIndex} >
+                                {columns.map((_, cellIndex) => (
+                                    <td key={cellIndex} className='table-border country-table-cell'><div className='skeleton'></div></td>
+                                ))}
+                            </tr>
+                        ))
+                    ) : (
+                        page.map((row: { cells: Function }, key) => {
+                            {/* @ts-ignore */ }
+                            prepareRow(row);
+                            return (
+                                <>
                                     {/* @ts-ignore */}
-                                    {row.cells.map((cell) => (
-                                        <td {...cell.getCellProps()} className='table-border country-table-cell'>
-                                            {cell.render('Cell')}
-                                        </td>
-                                    ))}
-                                </tr>
-                            </>
-                        );
-                    })}
+                                    <tr key={key} {...row.getRowProps()}>
+                                        {/* @ts-ignore */}
+                                        {row.cells.map((cell, key) => (
+                                            <td key={key} {...cell.getCellProps()} className='table-border country-table-cell'>
+                                                {cell.render('Cell')}
+                                            </td>
+                                        ))}
+                                    </tr>
+                                </>
+                            );
+                        }))}
                 </tbody >
             </table>
             <div className='table-pagination'>
