@@ -1,0 +1,111 @@
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.globalfilter {
+  gap: 10px;
+  display: flex;
+}
+.global-input input {
+  padding: 8px;
+  width: 200px;
+  border-radius: 2px;
+  border: 2px solid rgb(197 206 214);
+}
+.global-input input::placeholder {
+  color: rgb(197 206 214);
+  font-size: 14px;
+}
+.showall-btn {
+  background-color: #6558f5;
+  border: 1px solid transparent;
+  color: white;
+  border-radius: 3px;
+  padding: 10px 15px;
+  font-weight: bolder;
+}
+.clear-btn {
+  border: none;
+  background-color: transparent;
+  text-decoration: underline;
+  color: #6558f5;
+  font-size: 16px;
+  margin-left: 250px;
+  cursor: pointer;
+}
+.Population-filter {
+  position: absolute;
+  top: 78px;
+  left: 255px;
+}
+.table-border {
+  border: 2px solid rgb(197 206 214);
+  text-align: left;
+  padding: 8px;
+}
+.country-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+.country-table-body {
+  width: 100%;
+}
+.country-table-head {
+}
+.country-table-cell {
+  padding: 8px;
+}
+.table-pagination {
+  margin-top: 10px;
+  text-align: left;
+}
+.table-pagination button {
+  border: none;
+  background-color: transparent;
+  text-decoration: underline;
+  color: #6558f5;
+  cursor: pointer;
+}
+.table-pagination button:disabled {
+  color: grey;
+  text-decoration: none;
+  cursor: not-allowed;
+}
+
+@media (max-width: 699px) {
+  /* CSS rules here will apply to screens 699px and narrower */
+  .filter-header {
+    flex-direction: column;
+    width: 100%;
+  }
+  .globalfilter {
+    flex-direction: column;
+    display: flex;
+    width: 100%;
+  }
+  .global-input input {
+    width: 100%;
+  }
+  .Population-filter {
+    width: 76vh;
+    left: 18px;
+    top: 115px;
+  }
+  .showall-btn {
+    margin-top: 40px;
+    width: 74vh;
+  }
+  .population-select {
+    width: 74vh;
+  }
+  .global-input input {
+    width: 71vh;
+  }
+
+  .clear-btn {
+    position: absolute;
+    top: 30px;
+  }
+}
