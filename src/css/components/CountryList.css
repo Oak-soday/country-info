@@ -61,6 +61,7 @@
 .table-pagination {
   margin-top: 10px;
   text-align: left;
+  margin-bottom: 20px;
 }
 .table-pagination button {
   border: none;
